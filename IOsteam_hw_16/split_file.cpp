@@ -1,21 +1,16 @@
-#include <iostream>
+/*#include <iostream>
 #include <fstream>
 
-
-
-void main()
+void splitFile(std::ifstream &in, const int &chunkSize, const int &fileSize)
 {
+	char bufft[15];
 	char currCh;
-	int chunkSize = 50;
-	std::ifstream in("file2.txt", std::ios::binary | std::ios::in);
+
 	if (!in)
 	{
 		std::cout << "Error!\n";
 		return;
 	}
-	in.seekg(0, std::ios::end);
-	int fileSize =  in.tellg();
-	in.seekg(0, in.beg);
 
 	int dim1 = fileSize / chunkSize + 1;
 	int dim2 = chunkSize;
@@ -26,7 +21,7 @@ void main()
 		buff[i] = new char[dim2];
 	}
 
-	while(!in.eof())
+	while (!in.eof())
 	{
 		for (int i = 0; i < dim1; i++)
 		{
@@ -34,32 +29,83 @@ void main()
 		}
 	}
 
-	std::cout << "\nCopy file.\n";
 	for (int i = 0; i < dim1; i++)
 	{
-		for (int j = 0; j < dim2; j++)
+		sprintf(bufft, "split_%d.txt", i);
+		std::ofstream out(bufft, std::ios::binary | std::ios::out | std::ios::trunc);
+		if (!out)
 		{
-			std::cout << buff[i][j];
+			std::cout << "Error!\n";
+			return;
 		}
+		out.write(buff[i], dim2);
+		out.close();
 	}
 
-	in.close();
+	std::cout << "File splited!";
 
-	std::ofstream out("text2.1.txt", std::ios::binary | std::ios::out | std::ios::trunc);
-	if (!out)
+	for (int i = 0; i < dim1; i++)
 	{
-		std::cout << "Error!\n";
-		return;
+		delete[] buff[i];
 	}
-
-	while (!out.eof())
-	{
-		for (int i = 0; i < dim1; i++)
-		{
-			out.write(buff[i], dim2);
-		}
-	}
-
-
-
+	delete[] buff;
 }
+
+void reestablishFile(std::ofstream &out, const int &chunkSize, const int &fileSize)
+{
+	char bufft[15];
+	char* temp = new char[chunkSize];
+
+	int dim1 = fileSize / chunkSize + 1;
+	int dim2 = chunkSize;
+
+	for (int i = 0; i < dim1; i++)
+	{
+		sprintf(bufft, "split_%d.txt", i);
+		std::ifstream in(bufft, std::ios::binary | std::ios::in);
+		if (!in)
+		{
+			std::cout << "Error!\n";
+			return;
+		}
+
+		in.read(temp, dim2);
+		/*if (i == dim1 - 1)
+		{
+			int lastSize = sizeof(temp);
+			out.write(temp, lastSize);
+		}
+		else
+		{}*/
+		/*out.write(temp, dim2);
+
+		in.close();
+	}
+
+	delete [] temp;
+}
+
+
+void main()
+{
+	int chunkSize;
+	std::ifstream inFile("file2.txt", std::ios::binary | std::ios::in);
+
+	inFile.seekg(0, std::ios::end);
+	int fileSize = inFile.tellg();
+	inFile.seekg(0, inFile.beg);
+
+	std::cout << "File size: " << fileSize << std::endl;
+	std::cout << "Enter chank size:\n";
+	std::cin >> chunkSize;
+
+	splitFile(inFile, chunkSize, fileSize);
+	inFile.close();
+
+	std::ofstream outFile("reestablish.txt", std::ios::binary | std::ios::out | std::ios::trunc);
+
+	reestablishFile(outFile, chunkSize, fileSize);
+	std::cout << "Reestablish file.\n";
+
+	outFile.close();
+}*/

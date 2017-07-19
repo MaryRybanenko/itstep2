@@ -1,0 +1,1 @@
+Depending on the format string, the function may expect a sequence of additional arguments, each con

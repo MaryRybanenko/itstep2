@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="html_edit.cpp" />
     <ClCompile Include="split_file.cpp" />
     <ClCompile Include="string_words_counter.cpp" />
   </ItemGroup>

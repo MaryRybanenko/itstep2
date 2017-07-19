@@ -1,0 +1,17 @@
+<HEAD>
+ <IMG SRC="">
+<TITLE>Basic HTML Sample Page</TITLE>
+</HEAD>
+<BODY BGCOLOR="WHITE">
+<CENTER>
+<H1>A Simple Sample Web Page</H1>
+
+  <IMG SRC="">
+
+  <H4>By Sheldon Brown</H4>
+
+<H2>Demonstrating a few HTML features</H2>
+
+ <IMG SRC="">
+
+</CENTER>
